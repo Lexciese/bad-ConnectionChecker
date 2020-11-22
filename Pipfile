@@ -10,6 +10,7 @@ requests = "*"
 py-getch = "*"
 pyinstaller = "*"
 pywinauto = "*"
+win10toast = "*"
 
 [requires]
 python_version = "3.8"

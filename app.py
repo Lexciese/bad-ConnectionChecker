@@ -18,30 +18,38 @@ from requests import get
 from time import sleep
 import winsound
 from getch import pause
-from pywinauto.findwindows import find_window
-from pywinauto.win32functions import SetForegroundWindow
+from win10toast import ToastNotifier
+# from pywinauto import *
+
+req = "https://www.google.com"
 
 
 class Connect:
 
-    req = "https://www.google.com"
+    # app = application.Application()
+
+    def notif(self):
+        n = ToastNotifier()
+
+        n.show_toast("Bad Connection",
+                     "Wait until your connection is stable", duration=3)
+        # while n.notification_active():
+        #     sleep(0.1)
 
     def check(self):
         try:
-            res = get(self.req, timeout=4)
+            res = get(req, timeout=4)
             print("Connection is normal with status code : " + str(res.status_code))
         except Exception as e:
-            winsound.MessageBeep(winsound.SND_ASYNC)
-            SetForegroundWindow(find_window(title='Connection Checker.exe'))
             print("error occured")
+            # winsound.MessageBeep(winsound.SND_ASYNC)
+            self.notif()
+            # SetForegroundWindow(find_window(title='Connection Checker.exe'))
+            # appp = self.app.connect(
+            #     path="C:\\Users\\ZAKI\\Desktop\\Connection Checker.exe")
+            # appp.minimize()
+            # appp.restore()
             sleep(1)
-
-    # def ping():
-    #     subprocess = subprocess.Popen(
-    #         "ping 192.168.0.1 -t -l 32", shell=True, stdout=subprocess.PIPE)
-    #     subprocess_return = subprocess.stdout.read()
-    #     print(subprocess_return)
-
 
 
 # CLA Main menu
@@ -55,6 +63,6 @@ try:
     while True:
         Connect().check()
         sleep(2)
-except:
-    print('Closing the program')
+except Exception as e:
+    print('Closing the program', e)
     sleep(3)
